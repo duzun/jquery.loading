@@ -1,0 +1,48 @@
+{
+  "name": "jquery.loading",
+  "title": "Add class(es) to DOM elements while waiting for async action",
+  "description": "Add class(es) to DOM elements while waiting for async action. Promise or callback.",
+  "version": "1.1.0",
+  "homepage": "https://github.com/duzun/jquery.loading",
+  "author": {
+    "name": "Dumitru Uzun",
+    "email": "contact@duzun.me",
+    "url": "https://DUzun.Me"
+  },
+  "main": "loading.js",
+  "unpkg": "loading.min.js",
+  "reveal": true,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/duzun/jquery.loading.git"
+  },
+  "bugs": "https://github.com/duzun/jquery.loading/issues",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/duzun/jquery.loading/blob/master/LICENSE-MIT"
+    }
+  ],
+  "dependencies": {
+    "jquery": ">=1.7"
+  },
+  "scripts": {
+    "verup": "verup",
+    "build": "gccs loading.js"
+  },
+  "verup": {
+    "files": [
+      "loading.js"
+    ]
+  },
+  "keywords": [
+    "img",
+    "image",
+    "load",
+    "asynchronously"
+  ],
+  "devDependencies": {
+    "gccs": "^1.1",
+    "verup": "^1.3"
+  }
+}
