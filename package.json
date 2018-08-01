@@ -1,5 +1,5 @@
 {
-  "name": "jquery.loading",
+  "name": "class-loading",
   "title": "Add class(es) to DOM elements while waiting for async action",
   "description": "Add class(es) to DOM elements while waiting for async action. Promise or callback.",
   "version": "1.1.0",
