@@ -36,9 +36,11 @@
     ]
   },
   "keywords": [
-    "img",
-    "image",
+    "jquery",
     "load",
+    "loading",
+    "class",
+    "promise",
     "asynchronously"
   ],
   "devDependencies": {

@@ -2,6 +2,19 @@
 
 Add class(es) to DOM elements while waiting for async action. Promise or callback.
 
+## Install
+
+The simplest way is to include `loading.js` in your HTML:
+
+```html
+<script src="https://unpkg.com/class-loading"></script>
+```
+
+If you are using `npm`:
+
+```sh
+npm install -S class-loading
+```
 
 ## Usage
 
