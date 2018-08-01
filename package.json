@@ -32,6 +32,7 @@
   },
   "verup": {
     "files": [
+      "loading.min.js",
       "loading.js"
     ]
   },
