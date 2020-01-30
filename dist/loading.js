@@ -9,36 +9,43 @@
      *
      * @license MIT
      * @author Dumitru Uzun (DUzun.Me)
-     * @version 1.2.0
+     * @version 1.2.1
      */
-    // ---------------------------------------------------------------------------
     function initLoading($) {
+      var lck = '_loading_class_';
+      var lcd = lck + 'disabled_';
+      var prp = 'disabled';
       /**
        * Adds/Removes loading class on the collection.
        *
-       * Eg:
+       * Usage:
        *   1)
        *       $('selector').loading('loading'); // add class
        *       ...
        *       $('selector').loading(false); // remove added loading class
+       *
        *   2)
-       *       var cb = $('selector').loading('loading', true); // add class and get the callback
+       *       const done = $('selector').loading('loading', true); // add class and get the callback
        *       ...
-       *       cb(); // remove added loading class
+       *       done(); // remove added loading class
+       *
        *   3)
        *       $('selector').loading('loading', promise); // add class and remove on promise resolve or reject
        *
-       * @param {String|Array} classes - classes to be added to collection while loading
+       *   4)
+       *       const done = $('selector').loading('loading', promise); // add class and remove on promise resolve or reject
+       *       setTimeout(done, 5e3); // timeout if promise takes too long
+       *
+       * @param {String|Array} classes  - classes to be added to collection while loading
        * @param {Boolean|Promise} retCb - if true, return a done() function to be called when done loading
-       *                           - if a promise, remove classes on resolve or reject
+       *                                - if a promise, remove classes on resolve or reject
        *
        * @return {jQuery|Function} - by default (no retCb) it returns the jQuery collection (this),
-       *                           but if retCb not falsy, done() function returned
+       *                             but if retCb not falsy, done() function returned
        */
-      function loading(classes, retCb) {
-        var lck = '_loading_class_';
-        var lcd = lck + 'disabled_';
-        var prp = 'disabled';
+
+      var loading = function loading(classes) {
+        var retCb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
         var that = this;
 
         if (classes === false) {
@@ -71,7 +78,7 @@
             }; // If retCb is a promise, call done() on resolve and reject
 
 
-            if ($.isFunction(retCb.then)) {
+            if (retCb !== true && $.isFunction(retCb.then)) {
               retCb.then(_done, _done);
             }
 
@@ -90,7 +97,7 @@
         }
 
         return that;
-      }
+      };
 
       $.fn.loading = loading;
       return loading;
@@ -98,7 +105,10 @@
 
     if (typeof window !== 'undefined') {
       var $ = window.jQuery || window.Zepto;
-      if ($) initLoading($);
+
+      if ($) {
+        initLoading($);
+      }
     }
 
     return initLoading;
