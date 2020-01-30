@@ -2,14 +2,15 @@
   "name": "class-loading",
   "title": "Add class(es) to DOM elements while waiting for async action",
   "description": "Add class(es) to DOM elements while waiting for async action. Promise or callback.",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "homepage": "https://github.com/duzun/jquery.loading",
   "author": {
     "name": "Dumitru Uzun",
     "email": "contact@duzun.me",
     "url": "https://DUzun.Me"
   },
-  "module": "loading.js",
+  "types": "loading.d.ts",
+  "module": "dist/loading.esm.js",
   "main": "dist/loading.js",
   "unpkg": "dist/loading.min.js",
   "reveal": true,
@@ -30,13 +31,15 @@
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/preset-env": "^7.8.4",
-    "rollup": "^1.27.8",
+    "@types/jquery": "^3.3.31",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-terser": "^5.1.2",
     "verup": "^1.7"
   },
   "scripts": {
-    "build": "rollup -c rollup.config.js",
+    "tsc": "npx tsc --build",
+    "rollup": "npx rollup -c rollup.config.js",
+    "build": "npm run tsc && npm run rollup",
     "verup": "verup"
   },
   "keywords": [
@@ -50,7 +53,7 @@
   "extra": {
     "verup": {
       "files": [
-        "loading.js"
+        "loading.ts"
       ]
     }
   },

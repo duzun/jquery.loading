@@ -6,4 +6,5 @@
 .jshintrc
 .editorconfig
 .gitignore
+tsconfig.json
 rollup.config.js
