@@ -1,48 +1,35 @@
 /**
- * Adds/Removes loading class on the collection.
- *
- * Eg:
- *   1)
- *       $('selector').loading('loading'); // add class
- *       ...
- *       $('selector').loading(false); // remove added loading class
- *   2)
- *       var cb = $('selector').loading('loading', true); // add class and get the callback
- *       ...
- *       cb(); // remove added loading class
- *   3)
- *       $('selector').loading('loading', promise); // add class and remove on promise resolve or reject
- *
- * @param string|array classes - classes to be added to collection while loading
- * @param bool|Promise retCb - if true, return a done() function to be called when done loading
- *                           - if a promise, remove classes on resolve or reject
- *
- * @return jQuery|function - by default (no retCb) it returns the jQuery collection (this),
- *                           but if retCb not falsy, done() function returned
+ * A jQuery plugin to add/remove classes to a collection while a promise is pending or something is loading asynchronously.
  *
  * @license MIT
  * @author Dumitru Uzun (DUzun.Me)
- * @version 1.1.0
+ * @version 1.2.0
  */
+// ---------------------------------------------------------------------------
+export default function initLoading($) {
 
-;(function (window) {
-    'use strict';
-    // ---------------------------------------------------------------------------
-    var undefined
-    ,   UNDEFINED = undefined + ''
-    ,   FUNCTION = 'function'
-    ,   jq = window.jQuery || window.Zepto
-    ;
-    (typeof define !== FUNCTION || !define.amd
-        ? typeof module == UNDEFINED || !module.exports
-            ? function (deps, factory) { factory(jq); } // Browser
-            : function (deps, factory) { module.exports = factory(jq||require('jquery')); } // CommonJs
-        : define // AMD
-    )
-    /*define*/(/*name, */[jq?null:'jquery'], function factory(jQuery) {
-        // ---------------------------------------------------------------------------
-        var $ = jQuery || jq;
-
+        /**
+         * Adds/Removes loading class on the collection.
+         *
+         * Eg:
+         *   1)
+         *       $('selector').loading('loading'); // add class
+         *       ...
+         *       $('selector').loading(false); // remove added loading class
+         *   2)
+         *       var cb = $('selector').loading('loading', true); // add class and get the callback
+         *       ...
+         *       cb(); // remove added loading class
+         *   3)
+         *       $('selector').loading('loading', promise); // add class and remove on promise resolve or reject
+         *
+         * @param {String|Array} classes - classes to be added to collection while loading
+         * @param {Boolean|Promise} retCb - if true, return a done() function to be called when done loading
+         *                           - if a promise, remove classes on resolve or reject
+         *
+         * @return {jQuery|Function} - by default (no retCb) it returns the jQuery collection (this),
+         *                           but if retCb not falsy, done() function returned
+         */
         function loading(classes, retCb) {
             var lck = '_loading_class_';
             var lcd = lck + 'disabled_';
@@ -91,7 +78,13 @@
             return that;
         }
 
-        return $.fn.loading = loading;
-    });
+    $.fn.loading = loading;
+
+    return loading;
 }
-(this));
+
+// Auto-init in browser when jQuery or Zepto is present
+if ( typeof window !== 'undefined' ) {
+    const $ = window.jQuery || window.Zepto;
+    if ( $ ) initLoading($);
+}

@@ -2,15 +2,16 @@
   "name": "class-loading",
   "title": "Add class(es) to DOM elements while waiting for async action",
   "description": "Add class(es) to DOM elements while waiting for async action. Promise or callback.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "homepage": "https://github.com/duzun/jquery.loading",
   "author": {
     "name": "Dumitru Uzun",
     "email": "contact@duzun.me",
     "url": "https://DUzun.Me"
   },
-  "main": "loading.js",
-  "unpkg": "loading.min.js",
+  "module": "loading.js",
+  "main": "dist/loading.js",
+  "unpkg": "dist/loading.min.js",
   "reveal": true,
   "repository": {
     "type": "git",
@@ -26,15 +27,17 @@
   "dependencies": {
     "jquery": ">=1.7"
   },
-  "scripts": {
-    "verup": "verup",
-    "build": "gccs loading.js"
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "rollup": "^1.27.8",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-terser": "^5.1.2",
+    "verup": "^1.7"
   },
-  "verup": {
-    "files": [
-      "loading.min.js",
-      "loading.js"
-    ]
+  "scripts": {
+    "build": "rollup -c rollup.config.js",
+    "verup": "verup"
   },
   "keywords": [
     "jquery",
@@ -44,8 +47,26 @@
     "promise",
     "asynchronously"
   ],
-  "devDependencies": {
-    "gccs": "^1.1",
-    "verup": "^1.3"
+  "extra": {
+    "verup": {
+      "files": [
+        "loading.js"
+      ]
+    }
+  },
+  "jshintConfig": {
+    "esversion": 9,
+    "laxbreak": true,
+    "laxcomma": true,
+    "undef": true,
+    "unused": true,
+    "sub": true,
+    "expr": true,
+    "bitwise": false,
+    "eqeqeq": false,
+    "boss": true,
+    "eqnull": true,
+    "scripturl": true,
+    "-W041": false
   }
 }

@@ -4,9 +4,10 @@ Add class(es) to DOM elements while waiting for async action. Promise or callbac
 
 ## Install
 
-The simplest way is to include `loading.js` in your HTML:
+The simplest way is to include `loading.js` in your HTML after `jQuery` script:
 
 ```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://unpkg.com/class-loading"></script>
 ```
 
@@ -14,6 +15,28 @@ If you are using `npm`:
 
 ```sh
 npm install -S class-loading
+```
+
+## Import or require
+
+This library can be included either as an ESM or UMD.
+
+#### ESM
+
+```js
+import initLoading from 'class-loading';
+import $ from 'jquery';
+
+initLoading($);
+```
+
+#### CommonJS
+
+```js
+const initLoading = require('class-loading');
+const $ = require('jquery');
+
+initLoading($);
 ```
 
 ## Usage
