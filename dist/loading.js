@@ -9,7 +9,7 @@
      *
      * @license MIT
      * @author Dumitru Uzun (DUzun.Me)
-     * @version 1.2.1
+     * @version 1.3.0
      */
     function initLoading($) {
       var lck = '_loading_class_';
@@ -65,13 +65,17 @@
           });
         } else {
           if (retCb) {
-            that.addClass(classes).attr(prp, prp).prop(prp, true);
+            that.addClass(classes).attr(prp, prp).prop(prp, true); // On `.disabled = true` the element loses focus
+
+            var focused = that.filter(isFocused);
 
             var _done = function done(a) {
               // Prevent calling it more then once
               if (_done) {
                 that.removeClass(classes).attr(prp, null).prop(prp, false);
-                _done = undefined;
+                _done = undefined; // Restore the focus on `.disabled = false`
+
+                focused.each(reFocusIf);
               }
 
               return arguments.length == 1 ? a : that; // in Promises return the result without altering it
@@ -100,6 +104,20 @@
       };
 
       $.fn.loading = loading;
+
+      function isFocused() {
+        var elem = this;
+        return elem.ownerDocument.activeElement === elem;
+      }
+
+      function reFocusIf() {
+        var elem = this;
+        var ownerDocument = elem.ownerDocument;
+        var activeElement = ownerDocument.activeElement;
+        if (activeElement && (activeElement === elem || activeElement !== ownerDocument.body)) return;
+        return elem.focus();
+      }
+
       return loading;
     } // Auto-init in browser when jQuery or Zepto is present
 
