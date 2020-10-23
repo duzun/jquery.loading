@@ -3,7 +3,7 @@
  *
  * @license MIT
  * @author Dumitru Uzun (DUzun.Me)
- * @version 1.2.1
+ * @version 1.3.1
  */
 export default function initLoading($) {
     const lck = '_loading_class_';
@@ -54,12 +54,16 @@ export default function initLoading($) {
         }
         else {
             if (retCb) {
+                // On `.disabled = true` the element loses focus
+                const focused = that.filter(isFocused);
                 that.addClass(classes).attr(prp, prp).prop(prp, true);
                 let done = function (a) {
                     // Prevent calling it more then once
                     if (done) {
                         that.removeClass(classes).attr(prp, null).prop(prp, false);
                         done = undefined;
+                        // Restore the focus on `.disabled = false`
+                        focused.each(reFocusIf);
                     }
                     return arguments.length == 1 ? a : that; // in Promises return the result without altering it
                 };
@@ -82,6 +86,18 @@ export default function initLoading($) {
         return that;
     };
     $.fn.loading = loading;
+    function isFocused() {
+        const elem = this;
+        return elem.ownerDocument.activeElement === elem;
+    }
+    function reFocusIf() {
+        const elem = this;
+        const { ownerDocument } = elem;
+        const { activeElement } = ownerDocument;
+        if (activeElement && (activeElement === elem || activeElement !== ownerDocument.body))
+            return;
+        return elem.focus();
+    }
     return loading;
 }
 // Auto-init in browser when jQuery or Zepto is present
