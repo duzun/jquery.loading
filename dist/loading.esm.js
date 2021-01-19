@@ -3,7 +3,7 @@
  *
  * @license MIT
  * @author Dumitru Uzun (DUzun.Me)
- * @version 1.3.1
+ * @version 1.4.0
  */
 export default function initLoading($) {
     const lck = '_loading_class_';
@@ -94,9 +94,32 @@ export default function initLoading($) {
         const elem = this;
         const { ownerDocument } = elem;
         const { activeElement } = ownerDocument;
+        // Avoid re-focusing if another element or elem it is focused
         if (activeElement && (activeElement === elem || activeElement !== ownerDocument.body))
             return;
+        // Avoid re-focusing if out of viewport to avoid scrolling the page
+        if (!isOnViewport(elem))
+            return;
         return elem.focus();
+    }
+    // A better inView() version sketch
+    function isOnViewport(elem) {
+        if (!elem.getBoundingClientRect)
+            return;
+        const rect = elem.getBoundingClientRect();
+        if (!rect.height && !rect.width)
+            return false; // display: none ?
+        if (rect.top < 0 || rect.left < 0)
+            return false;
+        const { ownerDocument } = elem;
+        const { documentElement } = ownerDocument;
+        let { clientHeight, clientWidth } = documentElement;
+        if (typeof window !== 'undefined' && window.innerHeight) {
+            clientHeight = window.innerHeight;
+            clientWidth = window.innerWidth;
+        }
+        return (rect.bottom <= clientHeight &&
+            rect.right <= clientWidth);
     }
     return loading;
 }

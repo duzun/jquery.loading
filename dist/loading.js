@@ -1,7 +1,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
-    (global = global || self, global.jquery_class_loading = factory());
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.jquery_class_loading = factory());
 }(this, (function () { 'use strict';
 
     /**
@@ -9,7 +9,7 @@
      *
      * @license MIT
      * @author Dumitru Uzun (DUzun.Me)
-     * @version 1.3.1
+     * @version 1.4.0
      */
     function initLoading($) {
       var lck = '_loading_class_';
@@ -113,9 +113,32 @@
       function reFocusIf() {
         var elem = this;
         var ownerDocument = elem.ownerDocument;
-        var activeElement = ownerDocument.activeElement;
-        if (activeElement && (activeElement === elem || activeElement !== ownerDocument.body)) return;
+        var activeElement = ownerDocument.activeElement; // Avoid re-focusing if another element or elem it is focused
+
+        if (activeElement && (activeElement === elem || activeElement !== ownerDocument.body)) return; // Avoid re-focusing if out of viewport to avoid scrolling the page
+
+        if (!isOnViewport(elem)) return;
         return elem.focus();
+      } // A better inView() version sketch
+
+
+      function isOnViewport(elem) {
+        if (!elem.getBoundingClientRect) return;
+        var rect = elem.getBoundingClientRect();
+        if (!rect.height && !rect.width) return false; // display: none ?
+
+        if (rect.top < 0 || rect.left < 0) return false;
+        var ownerDocument = elem.ownerDocument;
+        var documentElement = ownerDocument.documentElement;
+        var clientHeight = documentElement.clientHeight,
+            clientWidth = documentElement.clientWidth;
+
+        if (typeof window !== 'undefined' && window.innerHeight) {
+          clientHeight = window.innerHeight;
+          clientWidth = window.innerWidth;
+        }
+
+        return rect.bottom <= clientHeight && rect.right <= clientWidth;
       }
 
       return loading;
